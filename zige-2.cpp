@@ -23,17 +23,15 @@ int getCount(const vector<vector<int> > &dpCount, int a, int b, int sz)
 			count += dpCount[i][j];
 		}
 	}
-	return count;
+	return count % 100007;
 }
 
 int dp(const string &s)
 {
 	int sz = s.size();
-	vector<vector<int> > dpRes(sz, vector<int>(sz, 0));
 	vector<vector<int> > dpCount(sz, vector<int>(sz, 0));
 	for (int i = 0; i < sz; i++)
 	{
-		dpRes[i][i] = 1;
 		dpCount[i][i] = 1;
 	}
 
@@ -41,12 +39,8 @@ int dp(const string &s)
         int tmp = 0;
         for(int j=0; j+i<sz; j++){
             if(s[j] == s[j+i]){
-                tmp = dpRes[j+1][j+i-1] + 2;
-                dpCount[j][j+i] = getCount(dpCount, j + 1, j + i - 1, sz) + 1;
-            }else{
-                tmp = max(dpRes[j+1][j+i],dpRes[j][j+i-1]);
+                dpCount[j][j+i] = (getCount(dpCount, j + 1, j + i - 1, sz) + 1) % 100007;
             }
-            dpRes[j][j+i] = tmp;
         }
     }
 
